@@ -1,10 +1,9 @@
 import express from "express";
 import { response } from "express";
 import { MongoClient } from "mongodb";
-import dotenv from "dotenv" // importing dotenv
-import cors from "cors"
-import bcrypt from "bcrypt"
-
+import dotenv from "dotenv"; // importing dotenv
+import cors from "cors";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -14,10 +13,9 @@ const app = express();
 
 const PORT = process.env.PORT;
 // const PORT = 4000;
-app.use(cors())
- 
-app.use(express.json()); // Express Midware
+app.use(cors());
 
+app.use(express.json()); // Express Midware
 
 // const MONGO_URL = "mongodb://127.0.0.1"
 const MONGO_URL = process.env.MONGO_URL;
@@ -35,7 +33,7 @@ async function createConnection() {
 
 const client = await createConnection();
 
-// To Create mentor
+//
 
 app.get("/getMentor", async (request, response) => {
   const getMentor = await client
@@ -55,14 +53,12 @@ app.get("/getMentor/:id", async (request, response) => {
     .collection("mentor")
     .findOne({ id: id });
 
- 
-     response.send(mentId)
-   
+  response.send(mentId);
 
   // response.send(studId)
 });
 
-// To Create mentor
+//? API To Create mentor
 
 app.post("/mentor", async (request, response) => {
   const mentor = request.body;
@@ -75,7 +71,7 @@ app.post("/mentor", async (request, response) => {
   response.send(mentors);
 });
 
-// To Create a list of mentors
+//? To Create a list of mentors
 
 app.post("/manyMentors", async (request, response) => {
   const allMentors = request.body;
@@ -135,7 +131,7 @@ app.delete("/delStudent/:id", async (request, response) => {
         .send({ message: "Such a mentor is not available to delete" });
 });
 
-// To Create student
+//? Api to Create student
 
 app.post("/AddStudent", async (request, response) => {
   const student = request.body;
@@ -148,7 +144,7 @@ app.post("/AddStudent", async (request, response) => {
   response.send(students);
 });
 
-// Add many students
+// API to Create many students
 
 app.post("/add/Students", async (request, response) => {
   const studData = request.body;
@@ -161,7 +157,7 @@ app.post("/add/Students", async (request, response) => {
   response.send(manyStud);
 });
 
-// To delete multiple/All mentor
+//? API To delete multiple/All mentor
 
 app.delete("/delMentors/:desingnation", async (request, response) => {
   const { desingnation } = request.params;
@@ -174,7 +170,7 @@ app.delete("/delMentors/:desingnation", async (request, response) => {
   response.send(deleteMentors);
 });
 
-// To delete single document
+//? API To delete single document
 
 app.delete("/delMen/:id", async (request, response) => {
   const { id } = request.params;
@@ -187,7 +183,7 @@ app.delete("/delMen/:id", async (request, response) => {
   response.send(Delete);
 });
 
-// select one mentor and add multiple  students
+//? API to Assign a student to Mentor
 
 app.post(`/mentee's`, async (request, response) => {
   // const getStud = await client.db("student_mentor").collection("students").find({name:})
@@ -200,19 +196,28 @@ app.post(`/mentee's`, async (request, response) => {
   response.send(addMentee);
 });
 
-// To asign a mentor 
+//? To asign a student mentor
 
-app.put("/asign/student/:id",async(request,response)=>{
+app.put("/asign/student/:id", async (request, response) => {
 
- const {id} = request.params
+  const { id } = request.params;
 
- const {student} = request.body
+const student  = request.body;
 
- const stud = await client.db("student_mentor").collection("mentor").updateOne({id:id},{$set:{student}}) 
+
+// const updateData = await client.db("student_mentor").collection("mentor").findOne({id:id})
+// console.log(updateData);
+// updateData.student = student
+
+
+  const stud = await client
+    .db("student_mentor")
+    .collection("mentor")
+    .updateOne({ id: id },{$set:student});
+   
   
-      response.send(stud)
-
-  })
+  response.send(stud);
+});
 
 // Api to change the mentors details
 
@@ -226,7 +231,17 @@ app.put("/mentors/:id", async (req, res) => {
   res.send(updateMentor);
 });
 
+// ! Adding multiple students to mentor
 
+// app.put('/mentor/students/:id',async(request,response)=>{
+
+// const {id}=
+
+// // const addStudents = await client.db("student_mentor").collection("mentor").updateMany({id})
+
+// //     response.send()
+
+// })
 
 app.listen(PORT, () => console.log(`app started on port ${PORT}`));
 
