@@ -1,6 +1,0 @@
-1) Api for reading students GET method (Slno Name Email )
-2) Create student with following data POST(StudentName Student secondname student email)
-3) Create API to get Mentor (Slno name Email mentorId )
-4) Create a Api to Delete a individual Mentor(Delete by id)
-5) Create a POST Api method to create a Mentor
-6) Use PUT method to update a mentor

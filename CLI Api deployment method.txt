@@ -1,0 +1,15 @@
+                                   HEROKU CLI METHOD
+
+Install CLI software : https://devcenter.heroku.com/articles/heroku-cli
+install and Restart Vscode
+
+* Create Procfile : Write -> Web:node app_name
+* git init -> in terminal
+* Enter -> heroku login -> in terminal
+* Shows -> press any key-> press enter
+* heroku create <unique_name>
+* git add .
+* git commit -m "first commit"
+* git push heroku master
+* go to heroku site dashboard -> in settings -> inside reveal config vars paste ->  mongo_url values
+* Type -> Heroku restart -> in terminal
